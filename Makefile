@@ -14,3 +14,6 @@ flake8:
 
 mypy:
 	mypy .
+
+update:
+	poetry update -vv

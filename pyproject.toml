@@ -19,7 +19,6 @@ ipdb = "*"
 ipython = "*"
 isort = "*"
 mypy = "*"
-pyupgrade = "*"
 
 [tool.black]
 skip-string-normalization = true
