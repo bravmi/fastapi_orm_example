@@ -1,5 +1,3 @@
-from typing import List
-
 import sqltap
 import uvicorn
 from fastapi import Depends, FastAPI
@@ -35,7 +33,9 @@ async def reset_db():
 
         # Populate users table
         for i in range(50):
-            user = models.User(email=f"user{i}@email.com", hashed_password=f"pwdforuser{i}")
+            user = models.User(
+                email=f"user{i}@email.com", hashed_password=f"pwdforuser{i}"
+            )
             db.add(user)
         db.commit()
 
@@ -43,7 +43,9 @@ async def reset_db():
         users = db.query(models.User).all()
         for user in users:
             for i in range(20):
-                user_item = models.Item(title=f"Item{i}", description=f"Item{i} description", owner=user)
+                user_item = models.Item(
+                    title=f"Item{i}", description=f"Item{i} description", owner=user
+                )
                 db.add(user_item)
         db.commit()
     finally:
@@ -59,10 +61,17 @@ async def add_sql_tap(request: Request, call_next):
     return response
 
 
-@app.get("/users/", response_model=List[schemas.User])
+@app.get("/users/", response_model=list[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = db.query(models.User).offset(skip).limit(limit).all()
-    # users = db.query(models.User).options(joinedload(models.User.items)).offset(skip).limit(limit).all() # The fix to the N+1 issue
+    # users = db.query(models.User).offset(skip).limit(limit).all()
+    # The fix to the N+1 issue
+    users = (
+        db.query(models.User)
+        .options(joinedload(models.User.items))
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
     return users
 
 
