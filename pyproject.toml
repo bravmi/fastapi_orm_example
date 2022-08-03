@@ -19,6 +19,7 @@ ipdb = "*"
 ipython = "*"
 isort = "*"
 mypy = "*"
+sqlalchemy-stubs = "*"
 
 [tool.black]
 skip-string-normalization = true
