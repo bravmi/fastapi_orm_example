@@ -4,3 +4,13 @@ run:
 
 get:
 	http localhost:8000/users/?limit=100
+
+lint:
+	make flake8
+	make mypy
+
+flake8:
+	flake8 .
+
+mypy:
+	mypy .
