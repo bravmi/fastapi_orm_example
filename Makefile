@@ -1,9 +1,9 @@
 
 run:
-	uvicorn fastapi_orm_example.app:app --reload
+	uvicorn fastapi_orm_example.app:app --reload --use-colors
 
 get:
-	http localhost:8000/users/?limit=10
+	http localhost:8000/users/?limit=2
 
 lint:
 	make flake8

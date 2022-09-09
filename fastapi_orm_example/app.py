@@ -1,15 +1,18 @@
+import os
+
 import sqlalchemy as sa
-import sqltap
-import sqltap.wsgi
 import uvicorn
 from fastapi import Depends, FastAPI
 from sqlalchemy.ext.asyncio import AsyncSession
-from starlette.requests import Request
 
 from . import models, schemas
 from .database import SessionLocal, engine
+from .middleware import SqlTapMiddleware
 
 app = FastAPI()
+
+if os.environ.get('SQL_TAP') == '1':
+    app.add_middleware(SqlTapMiddleware)
 
 
 @app.on_event('startup')
@@ -55,15 +58,6 @@ async def reset_db():
         await db.commit()
     finally:
         await db.close()
-
-
-@app.middleware('http')
-async def add_sql_tap(request: Request, call_next):
-    profiler = sqltap.start()
-    response = await call_next(request)
-    statistics = profiler.collect()
-    sqltap.report(statistics, 'report.html', report_format='html')
-    return response
 
 
 @app.get('/users/', response_model=list[schemas.User])
