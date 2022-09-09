@@ -5,21 +5,23 @@ name = "fastapi_orm_example"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
+aiosqlite = "^0.17"
 fastapi = "^0.79"
 python = "^3.10"
 sqlalchemy = "^1.4"
-sqltap = "^0.3"
 uvicorn = "^0.18"
 
 [tool.poetry.dev-dependencies]
 black = "*"
 flake8 = "*"
+greenlet = "^1"
 httpie = "*"
 ipdb = "*"
 ipython = "*"
 isort = "*"
 mypy = "*"
 sqlalchemy-stubs = "*"
+sqltap = "^0.3"
 
 [tool.black]
 skip-string-normalization = true
