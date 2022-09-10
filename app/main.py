@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import models, schemas
 from .database import SessionLocal, engine
+from .dependencies import get_db
 from .middleware import SqlTapMiddleware
 
 app = FastAPI()
@@ -22,15 +23,6 @@ async def create_tables():
         await conn.run_sync(models.Base.metadata.create_all)
 
 
-# Dependency
-async def get_db() -> AsyncSession:
-    try:
-        db: AsyncSession = SessionLocal()
-        yield db
-    finally:
-        await db.close()
-
-
 @app.on_event('startup')
 async def reset_db():
     db = SessionLocal()
@@ -40,7 +32,7 @@ async def reset_db():
         await db.execute(sa.delete(models.User))
 
         # Populate users table
-        for i in range(50):
+        for i in range(10):
             user = models.User(
                 email=f'user{i}@email.com', hashed_password=f'pwdforuser{i}'
             )
@@ -50,7 +42,7 @@ async def reset_db():
         # Populate items table
         users = (await db.execute(sa.select(models.User))).scalars().all()
         for user in users:
-            for i in range(20):
+            for i in range(5):
                 user_item = models.Item(
                     title=f'Item{i}', description=f'Item{i} description', owner=user
                 )
