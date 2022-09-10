@@ -8,6 +8,7 @@ APP_PATH = pathlib.Path(__file__).parent
 class Settings(BaseSettings):
     DEBUG: bool = False
     SQL_TAP: bool = False
+    RESET_DB: bool = False
 
     class Config:
         case_sensitive = True
