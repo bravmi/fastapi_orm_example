@@ -1,5 +1,3 @@
-import os
-
 import sqlalchemy as sa
 import uvicorn
 from fastapi import Depends, FastAPI
@@ -9,10 +7,11 @@ from . import models, schemas
 from .database import SessionLocal, engine
 from .dependencies import get_db
 from .middleware import SqlTapMiddleware
+from .config import settings
 
 app = FastAPI()
 
-if os.environ.get('SQL_TAP') == '1':
+if settings.SQL_TAP:
     app.add_middleware(SqlTapMiddleware)
 
 
