@@ -131,3 +131,5 @@ dmypy.json
 # Project related
 app.db
 report.txt
+
+.idea/
