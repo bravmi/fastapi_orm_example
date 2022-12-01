@@ -13,6 +13,7 @@ uvicorn = "^0.18"
 
 [tool.poetry.dev-dependencies]
 black = "*"
+debugpy = "*"
 flake8 = "*"
 greenlet = "^1"
 httpie = "*"
@@ -20,6 +21,7 @@ ipdb = "*"
 ipython = "*"
 isort = "*"
 mypy = "*"
+pydevd-pycharm = "~222.4459.20"
 sqlalchemy-stubs = "*"
 sqltap = "^0.3"
 
